@@ -1,0 +1,80 @@
+/* svg{
+	background:none;
+}
+g{
+	display:inline;
+}
+button{
+	font-style: bold; 
+	color: #0004ff;
+}
+span{
+	font-style: bold; 
+	color: #0004ff; 
+	font-size: 20pt;
+} */
+.button {
+background-color: #0483ff; 
+border: black;
+color: white;
+padding: 20px;
+text-align: center;
+padding: 0px;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin: 4px 2px;
+cursor: pointer;
+border-radius: 12px;
+width: 100px;
+height: 30px;
+}
+
+.axis text {
+  font: 15px sans-serif;
+}
+
+.axis line, .axis path {
+  fill: none;
+  stroke: none;
+  shape-rendering: crispEdges;
+}
+/* 
+div#map{
+	width:710px;
+	height:750px;
+} */
+
+.multiselect {
+	width: 200px;
+  }
+  
+  .selectBox {
+	position: relative;
+  }
+  
+  .selectBox select {
+	width: 100%;
+	font-weight: bold;
+  }
+  
+  .overSelect {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+  }
+  
+  #checkboxes {
+	display: none;
+	border: 1px #dadada solid;
+  }
+  
+  #checkboxes label {
+	display: block;
+  }
+  
+  #checkboxes label:hover {
+	background-color: #1e90ff;
+  }

@@ -1,0 +1,74 @@
+/* body {
+    font-family:  Helvetica, Arial, sans-serif;
+    margin: 32px;
+
+} */
+
+#power-gauge g.arc {
+    fill: rgb(235, 9, 148);
+
+}
+
+#power-gauge g.pointer {
+    fill: black;
+    stroke: black;
+}
+
+#power-gauge g.label text {
+    text-anchor: middle;
+    font-size: 14px;
+    font-weight: bold;
+    fill: #666;
+}
+figure {
+min-width: 10px;
+display: flex;
+flex-flow: column;
+padding: 5px;
+max-width: 150px;
+/* margin : 25px 50px 75px 1000px; */
+padding: 0px;
+
+}
+figcaption {
+    /* border-style: solid; */
+    /* border-color: red; */
+background-color: white;
+position: relative;
+color: black;
+font: italic smaller sans-serif;
+padding: 5px;
+text-align: center;
+font-family: "Times New Roman";
+font-size: 20px;
+font-style: normal;
+}
+
+
+.rectangle_CES {
+height: 20px;
+width: 200px;
+background: linear-gradient(to right, blue 32%, orange 32%, orange 60%, grey 60%, grey 80% , yellow 80%);
+padding: 0px;
+}
+
+
+.rectangle_NPS {
+    height: 20px;
+    width: 200px;
+    background: linear-gradient(to right, blue 32%, orange 32%, orange 60%, grey 60%, grey 80% , yellow 80%);
+}
+
+.rectangle_CSAT{
+    height: 20px;
+    width: 200px;
+    background: linear-gradient(to right, blue 32%, orange 32%, orange 60%, grey 60%, grey 80% , yellow 80%);
+}
+
+
+.gauge
+{
+    /* border-style: solid;
+    border-color:yellow; */
+    margin:0;
+}

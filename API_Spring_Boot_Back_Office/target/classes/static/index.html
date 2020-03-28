@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="fr" class="overflow-hidden">
+<!-- <html lang="en"> -->
+
+<head>
+
+    <title>Coronavirus (COVID-19) Moroccan Tracker</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.ico" />
+
+    <!-- * CSS imports starts  -->
+    <!-- sharts css  -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style_gauge.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style_sunburst.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style_barre.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/mapstyle.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style_graphics.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- * (order is important)  -->
+    <link rel="stylesheet" type="text/css" href="assets/css/old_style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom_style.css">
+
+    <!-- * (order is important) Imports of JQuery, jQeryUi, Angular Js, Main APP, fontawsome and D3 js (order is important) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <!-- optional: mobile support with jqueryui-touch-punch -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <!-- angular js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- * d3 js -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <!-- * angular js Main APP -->
+    <script src="script.js"></script>
+
+</head>
+
+<body ng-app="myapp" ng-controller="MainCtrl" style="background-color: #F8FAFB;" id="body">
+    <!-- * preloader  -->
+    <div id='preloader' class="d-flex justify-content-center">
+
+        <div class="b4-spinner spinner-grow text-warning" role="status">
+            <span class="sr-only">Chargement...</span>
+        </div>
+    </div>
+
+    <div ng-if="!logged">
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="container h-100" style="width:100%">
+            <div class="d-flex justify-content-center h-100" style="width:100%;">
+                <div class="user_card" style="display: block; margin-left: auto; margin-right: auto;">
+                    <div class="d-flex justify-content-center">
+                        <div class="brand_logo_container">
+                            <img src="images/KoM.png" class="brand_logo" alt="Logo">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center form_container"
+                        style="border-style: solid;border-color: red;">
+                        <form>
+                            <h6 style="width:100%;font-weight: bold;">Coronavirus (COVID-19) Moroccan Tracker</h6>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Adresse Email</label>
+                                <input type="email" class="form-control" id="username" name="nom_collaborateur"
+                                    aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">username@example.com</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="password" name="password_collaborateur"
+                                    placeholder="Password">
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn login_btn" onclick="login()">Submit</button>
+                        </form>
+
+
+                        <br>
+
+
+                    </div>
+                    <div class="mt-4">
+
+                        <div class="d-flex justify-content-center links">
+                            <a href="#">Forgot your password?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="logged">
+        <!-- * header navigation section Start -->
+        <header id="topnav">
+            <div class="topbar-main bg-dark">
+                <div class="container-fluid">
+                    <div class="logo d-flex align-items-center" style="padding: 5px;">
+                        <img style="height: 90px;" class="logo" src="images/KoM.png" alt="">
+                        <span style="font-size: 16px;" class="text-light p-2">Coronavirus (COVID-19) Moroccan
+                            tracker</span>
+                    </div>
+                    <div class="menu-extras topbar-custom">
+                        <ul class="navbar-right d-flex list-inline float-right mb-0" style="margin-top: 25px;">
+                            <li class="dropdown notification-list d-none d-sm-block" style="padding-right: 15px;">
+                                <span style="font-size: 16px;" class="text-light">
+                                    <button onclick="getData()"
+                                        class="btnAtt2 btn btn-primary font-weight-bold btn-block">
+                                        <span>
+                                        </span> Rafraîchir
+                                    </button>
+                                </span>
+                            </li>
+                            <li class="dropdown notification-list d-none d-sm-block" style="padding-right: 15px;">
+                                <span style="font-size: 16px;" class="text-light">
+                                    <button ng-click="model(true)"
+                                        class="btnAtt2 btn btn-primary font-weight-bold btn-block">
+                                        <span>
+                                        </span> Ajouter des cas
+                                    </button>
+                                </span>
+                            </li>
+
+                            <li class="dropdown notification-list d-none d-sm-block">
+                                <span style="font-size: 16px;" class="text-light">
+                                    <a href="/simulation" target="_blank" style="padding: 0;">
+                                        <button class="btnAtt2 btn btn-primary font-weight-bold btn-block">
+                                            <span>
+                                            </span> faire une simulation
+                                        </button>
+                                    </a>
+                                </span>
+                            </li>
+                            <li class="dropdown notification-list d-none d-sm-block" style="margin-left: 20px;">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-warning cs-btn-map text-dark" ng-click="setNbDays(0)">
+                                        <input type="radio" name="options" autocomplete="off" onchange="changeColor4()"
+                                            id="ddd">Live
+                                    </label>
+                                    <label class="btn btn-warning cs-btn-map text-dark" ng-click="setNbDays(7)">
+                                        <input type="radio" name="options" autocomplete="off" onchange="changeColor1()"
+                                            id="aaa">+7
+                                    </label>
+                                    <label class="btn btn-warning cs-btn-map text-dark" ng-click="setNbDays(15)">
+                                        <input type="radio" name="options" autocomplete="off" onchange="changeColor2()"
+                                            id="bbb">+15
+                                    </label>
+                                    <label class="btn btn-warning cs-btn-map text-dark" ng-click="setNbDays(30)">
+                                        <input type="radio" name="options" autocomplete="off" onchange="changeColor3()"
+                                            id="ccc">+30
+                                    </label>
+                                </div>
+                    </div>
+                    </li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- * main section -->
+        <div class="container-fluid overflow-hidden">
+            <!-- * choose template form -->
+
+
+
+            <!-- * dashboard content -->
+            <div id="dashContent" class="m-t-20">
+                <div class="row">
+                    <!-- * Topic impact -->
+                    <div id="box1" class="col-md-6 col-sm-12 px-2" style="min-height:200px;">
+                        <div class="card" style="min-height: 1300px;">
+                            <h4
+                                class="card-header font-16 d-flex text-light bg-dark justify-content-between align-items-center m-0 py-2">
+                                Global (+{{nbDays}} jours)</h4>
+                            <div class="card-body">
+
+                                <p class="card-text">Estimation et prédiction du nombre des cas réels basée sur des
+                                    models de propagation du corona virus.</p>
+                                <div class="col-md-6 col-sm-12 px-2" style="float: left;">
+                                    <span style="font-size: 18px;">Nombre de cas confirmés : </span><span
+                                        style="font-weight: bold; font-size: 16px; color: #4472c4;">{{nb_cas}}</span>
+                                    <br>
+                                    <span style="font-size: 18px;">Nombre de cas réels : </span><span
+                                        style="font-weight: bold; font-size: 16px; color: #ba0000;">{{nb_cas_real}}</span>
+
+                                </div>
+                                <div class="col-md-6 col-sm-12 px-2" style="float: left;">
+                                    <span style="font-size: 18px;">Nombre de décès : </span><span
+                                        style="font-weight: bold; font-size: 16px">{{nb_mort}}</span>
+                                    <br>
+                                    <span style="font-size: 18px;">Nombre de lits disponibles : </span><span
+                                        style="font-weight: bold; font-size: 16px">{{nb_lit_dispo}}</span>
+                                </div>
+
+                                <div style="float:right">
+                                    Sélectionner une région :
+                                    <select name="region" id="region" size="1" ng-model="element.dictionnaire_type">
+
+                                        <option ng-repeat="type in regions " value="{{type.name}}"
+                                            ng-if="type.name!=='ALL'">
+                                            {{type.name}}</option>
+                                        <option ng-repeat="type in regions " value="{{type.name}}"
+                                            ng-if="type.name==='ALL'" selected="selected">
+                                            Maroc</option>
+                                    </select>
+                                    <br>
+                                    <label for="history">
+                                        <input type="checkbox" id="history" name="history"
+                                            ng-model="history" />Afficher l'historique</label>
+                                </div>
+                                <br>
+                                <div style="width: 100%;height: 100%;" id="charts1">
+                                    <canvas id="myChart1" style="float:left; padding-top: 5%; "></canvas>
+                                    <canvas id="myChart_deces" style="float:left; padding-top: 5%; "></canvas>
+                                    <canvas id="myChart2" style="float:left; padding-top: 5%; "></canvas>
+                                </div>
+                                <!-- <button onclick="setGraphbox1()">test</button> -->
+                                <!-- <meta charset="utf-8"> -->
+
+                                <!-- Load d3.js -->
+
+                                <!-- Create a div where the graph will take place -->
+                                <!-- <div id="my_dataviz" class="img-thumbnail p-4"></div> -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- * Quality indicators -->
+                    <div id="box2" class="col-md-6 col-sm-12 px-2" style="min-height:200px;">
+                        <div class="card" style="min-height: 1300px;">
+                            <h4
+                                class="card-header font-16 d-flex text-light bg-dark justify-content-between align-items-center m-0 py-2">
+                                <span class="font-weight-bold mt-0 ">
+                                    Régional (+{{nbDays}} jours)
+                                </span>
+
+
+                            </h4>
+                            <div class="card-body" style="width:100%;">
+                                <table style="width:100%;">
+                                    <tr style="width:100%;">
+                                    <th style="width:60%;">
+                                        <p class="card-text" style="font-weight:normal;font-size: 13px ;">Estimation et prédictions du nombre de cas par région.</p>
+                                    </th>
+                                    <th style="width:20%;">
+                                        <button onclick="initMap()"
+                                            class="btnAtt2 btn btn-primary font-weight-bold btn-block">
+                                            <span>
+                                            </span> par région
+                                        </button></th>
+                                    <th style="width:20%;">
+
+                                        <button
+                                            onclick="alert('Données par province non renseignées par l\'utilisateur')"
+                                            class="btnAtt2 btn btn-primary font-weight-bold btn-block">
+                                            <span>
+                                            </span> par province
+                                        </button>
+                                    </th>
+                                    </tr>
+                                </table>
+
+
+                                <!-- <button onclick="initMap()">par région</button>
+                                <button onclick="alert('Données par province non renseignées par l\'utilisateur')">par province</button> -->
+                                <div id="googleMap" style="width:100%;height:1100px;"></div>
+                                <script async defer
+                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUf-lvxaloDpGUZ8xYPMDnf2t3D-BF04M&libraries=visualization&callback=initMap">
+                                    </script>
+
+                                <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNLRT5cIrvqNSFBXnV8raqrblyN2txW8w&callback=initMap&libraries=geometry"
+    async defer></script> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" style="width: 100%;padding:5px;">
+                    <!-- * Topics Trends -->
+                    <div id="box3"
+                        style="min-height:200px;width:100%;margin-left: auto;margin-right: auto;display: block;">
+
+                        <div class="card">
+                            <h4
+                                class="card-header font-16 d-flex text-light bg-dark justify-content-between align-items-center m-0 py-2">
+                                Comparatif de pays</h4>
+                            <div class="card-body">
+                                <!-- <p class="card-text">Propositions d'action étatique à déclencher en fonction
+                                    des seuils et d'une analyse d'impact des actions à l'international et
+                                    actions menées par le gouvernement.</p> -->
+                                <div style="width:100%;">
+                                    <div style="float:right">
+                                        Ajouter / Supprimer un pays de la liste :
+                                        <form>
+                                            <div class="multiselect">
+                                                <div class="selectBox" onclick="showCheckboxes()">
+                                                    <select>
+                                                        <option>Liste des pays</option>
+                                                    </select>
+                                                    <div class="overSelect"></div>
+                                                </div>
+                                                <div id="checkboxes" style="  height: 300px; overflow: scroll;">
+                                                    <span ng-repeat="type in fake_data_char3.pays ">
+                                                        <label for="{{type.name}}">
+                                                            <input type="checkbox" id="{{type.name}}"
+                                                                ng-model="type.added"
+                                                                ng-click="chart3change($index)" />{{type.name}}</label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- <select name="pays" id="pays" size="1">
+        
+                                                <option ng-repeat="type in fake_data_char3.pays " value="{{type.name}}" >
+                                                    {{type.name}}
+                                                    </option>
+                                                
+                                            </select> -->
+                                    </div>
+                                    <div style="width:auto;height:auto;" id="charts2">
+                                        <canvas id="myChart3"
+                                            style="padding-top: 5%; display: block;width: 90%;margin-left: auto;margin-right: auto;max-height: 600px;"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="width: 100%;padding:5px;">
+                    <!-- * Topics Trends -->
+                    <div id="box3"
+                        style="min-height:200px;width:100%;margin-left: auto;margin-right: auto;display: block;">
+
+                        <div class="card" style="width:100%">
+                            <h4
+                                class="card-header font-16 d-flex text-light bg-dark justify-content-between align-items-center m-0 py-2">
+                                Recommandation (+{{nbDays}} jours)</h4>
+                            <div class="card-body" style="width:100%">
+                                <table style="width:100%">
+                                    <tr style="width:100%">
+                                        <th style="width:70%">
+                                            <p class="card-text">Propositions d'action étatique à déclencher en fonction
+                                                des seuils et d'une analyse d'impact des actions à l'international et
+                                                actions menées par le gouvernement.</p>
+                                        </th>
+
+
+                                    </tr>
+                                    <tr>
+                                        <th style="width:70%">
+                                            <p style="font-weight: bold;">A CE STADE ET EN ATTENDANT PLUS D'ACCÈS AUX
+                                                DONNÉES RÉGIONALES (NOMBRE DE LITS, ETC.) ET À DES SEUILS SANITAIRES ET
+                                                SÉCURITAIRES (NIVEAU DE RISQUES ETC.), L'OUTIL DE RECOMMANDATION DEMEURE
+                                                À L'ÉCHELLE DU MAROC ET NON ADAPTATIFS AUX BESOINS RÉELS.</p>
+
+                                        </th>
+                                    </tr>
+                                </table>
+                                <div style="z-index: 10;">
+                                    <ul class="navbar-right d-flex list-inline float-right mb-0"
+                                        style="background-color: white;">
+                                        <li class="dropdown notification-list d-none d-sm-block"
+                                            style="padding-right: 15px;">
+                                            <span style="font-size: 16px;" class="text-light">
+                                                <button ng-click="filtreSet(1)"
+                                                    ng-class="filtre!=1 ? 'not_selected' : 'btnAtt2 btn btn-primary font-weight-bold btn-block'">
+                                                    <span>
+                                                    </span> Sanitaire
+                                                </button>
+                                            </span>
+                                        </li>
+
+                                        <li class="dropdown notification-list d-none d-sm-block"
+                                            style="padding-right: 15px;">
+                                            <span style="font-size: 16px;" class="text-light">
+                                                <button ng-click="filtreSet(2)"
+                                                    ng-class="filtre!=2 ? 'not_selected' : 'btnAtt2 btn btn-primary font-weight-bold btn-block'">
+                                                    <span>
+                                                    </span> Mobilité
+                                                </button>
+                                            </span>
+                                        </li>
+                                        <li class="dropdown notification-list d-none d-sm-block"
+                                            style="padding-right: 15px;">
+                                            <span style="font-size: 16px;" class="text-light">
+                                                <button ng-click="filtreSet(3)"
+                                                    ng-class="filtre!=3 ? 'not_selected' : 'btnAtt2 btn btn-primary font-weight-bold btn-block'">
+                                                    <span>
+                                                    </span> Economie
+                                                </button>
+                                            </span>
+                                        </li>
+                                        <li class="dropdown notification-list d-none d-sm-block"
+                                            style="padding-right: 15px;">
+                                            <span style="font-size: 16px;" class="text-light">
+                                                <button ng-click="filtreSet(4)"
+                                                    ng-class="filtre!=4 ? 'not_selected' : 'btnAtt2 btn btn-primary font-weight-bold btn-block'">
+                                                    <span>
+                                                    </span> Réglementation
+                                                </button>
+                                            </span>
+                                        </li>
+
+                                    </ul>
+
+                                    <div class="clearfix"></div>
+
+                                </div>
+                                <br>
+                                <div class="table100" style="width:100%;">
+                                    <table style="border-style: solid;border-color: #E86441;" style="width:100%">
+                                        <thead style="width:100%;min-width: 600px;" >
+                                            <tr class="table100-head" style="line-height: 100px;width: 100%;">
+                                                <th style="width: 20px;text-align: center;">
+
+                                                </th>
+                                                <th style="width: 16.66%;text-align: center;">
+                                                    <br>
+                                                    Date
+                                                </th>
+                                                <th style="width: 16.66%;text-align: center;">
+                                                    <br>
+                                                    Région
+                                                </th>
+                                                <th style="width: 16.66%;text-align: center;">
+                                                    <br>
+                                                    Sujet
+                                                </th>
+                                                <th style="width: 50%;text-align: center;">
+                                                    <br>
+                                                    Action
+                                                </th>
+                                                <th style="width: 16.66%;text-align: center;">
+                                                    <br>
+                                                    Canal
+                                                </th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody" style="width:100%;min-width: 900px;">
+                                            <tr ng-repeat="element in data " valign="middle"
+                                                ng-if="element.subject==filtreTable[filtre-1]">
+
+                                                <td
+                                                    style="width: 20px; font-size: 13px !important; align-items: center; ">
+                                                    <br>
+                                                    <div ng-if="element.level==3"
+                                                        style="width:30px;height: 30px;background-color: red;border-radius: 36px;">
+                                                    </div>
+                                                    <div ng-if="element.level==2"
+                                                        style="width:30px;height: 30px;background-color: orange;border-radius: 36px;">
+                                                    </div>
+                                                    <div ng-if="element.level==1"
+                                                        style="width:30px;height: 30px;background-color: yellow;border-radius: 36px;">
+                                                    </div>
+                                                    <!-- {{element.niveau}} -->
+                                                </td>
+                                                <td
+                                                    style="width: 16.66%;text-align: center; font-size: 13px !important;">
+
+                                                    {{element.date}}
+                                                </td>
+                                                <td
+                                                    style="width: 16.66%;text-align: center; font-size: 13px !important;">
+                                                    {{element.region}}
+                                                </td>
+                                                <td
+                                                    style="width: 16.66%;text-align: center; font-size: 13px !important;">
+                                                    {{element.subject}}
+                                                </td>
+                                                <td style="width: 50%;text-align: center;">
+                                                    <div
+                                                        style="text-align: left;padding: 5px;font-size: 13px; font-weight: bold;">
+                                                        <span class="tlabel2">Actions:
+
+                                                        </span>
+                                                        <span ng-repeat="e in element.action track by $index">
+                                                            <br><span class="">
+                                                                {{e}} </span>
+                                                        </span>
+
+
+                                                    </div>
+                                                </td>
+                                                <td style="width: 16.66%;text-align: center; font-size: 13px;">
+                                                    <span ng-repeat="e in element.channel track by $index">
+                                                        <br><span class="">
+                                                            {{e}} </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- * Regional focus -->
+                    <!-- <div id="box4" class="col-md-6 col-sm-12 px-2" style="min-height:200px;width:100%">
+                        
+                    </div> -->
+
+
+
+
+
+                </div>
+
+            </div>
+
+            <!-- * Models Start -->
+            <div id="popup1" class="overlay pt-5">
+                <div class="popup p-5">
+                    <a class="close" href="#">&times;</a>
+
+                    <div class="content" style="overflow-y: auto; height: 600px;">
+                        <!-- ajouter des cas -->
+                        <div ng-if="modal1">
+                            <span style="font-size: 22px; font-weight: bold; color:black"> Mettre à jour les
+                                cas</span><br>
+
+
+                            <!-- <span style="font-weight: bold;">Date du jour : </span> <input type="date" id="date1"
+                            ng-model="date"> -->
+
+                            <div style="width: 100%;">
+                                <form method="POST" enctype="multipart/form-data" id="fileUploadForm_data"
+                                    style="padding:10px;width: 100%;text-align: center;">
+                                    <input type="file" placeholder="ajouter un excel" name="files"
+                                        accept=".xls,.xlsx" />
+                                    <!-- <button>importer par province</button> -->
+                                    <input type="submit" value="Importer par province" id="btn_send_2"
+                                        onclick="ajaxSubmitForm('fileUploadForm_data')" class="btn btn-secondary" style="width:200px;  background-color:  #F7AF2A;
+                                color: white!important;
+                                font-weight: bold;" />
+                                </form>
+                            </div>
+                            <table style="width: 1000px;">
+                                <thead style="width: 1000px;">
+                                    <tr style="font-weight: bolder;color:white;">
+                                        <th style="text-align: center;">
+                                            <div style="display: block;height: 9px;"></div>Région
+                                        </th>
+                                        <th style="text-align: center;"
+                                            style="padding-top: 10px;vertical-align: middle;">
+                                            <div style="display: block;height: 9px;"></div>Nombre de cas Diagnostiqués
+                                        </th>
+                                        <th style="text-align: center;">Dont Hospitalisés</th>
+                                        <th style="text-align: center;">
+                                            <div style="display: block;height: 9px;"></div>Nombre de lits
+                                        </th>
+                                        <th style="text-align: center;">
+                                            <div style="display: block;height: 9px;"></div>Nombre de mort
+                                        </th>
+                                        <th style="text-align: center;">
+                                            <div style="display: block;height: 9px;"></div>Nombre de rétabli
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody2" id="removed" style="width: 1000px;">
+                                    <tr ng-repeat="element in regional_updates">
+                                        <td style="text-align: center;">{{element.name}}</td>
+                                        <td style="text-align: center;"><input type="number"
+                                                ng-model="element.nb_diag" />
+                                        </td>
+                                        <td style="text-align: center;"><input type="number"
+                                                ng-model="element.dont_hosp" />
+                                        </td>
+                                        <td style="text-align: center;"><input type="number"
+                                                ng-model="element.nb_lit" />
+                                        </td>
+                                        <td style="text-align: center;"><input type="number"
+                                                ng-model="element.nb_mort" />
+                                        </td>
+                                        <td style="text-align: center;"><input type="number"
+                                                ng-model="element.nb_retab" />
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <!-- ajouter des action -->
+                        <div ng-if="!modal1">
+                            <span style="font-size: 22px; font-weight: bold; color:black"> Ajouter des
+                                actions</span><br><br>
+                            <table style="width: 1000px;">
+                                <button ng-click="add_action()">ajouter action</button>
+                                <thead style="width: 1000px;">
+                                    <tr style="color:white;font-style: bold; text-align: center;">
+                                        <th style="color:white;font-style: bold; text-align: center;"><br>Date</th>
+                                        <th style="color:white;font-style: bold; text-align: center;"><br>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody2" id="removed" style="width: 1000px;">
+                                    <tr ng-repeat="element in actions_updates">
+                                        <td style="text-align: center;"><input type="date" id="date1"
+                                                ng-model="element.date" name="date1"></td>
+                                        <td style="text-align: center;"><select name="action" size="1"
+                                                ng-model="element.action">
+                                                <option ng-repeat="type in actions track by $index" value="{{type}}">
+                                                    {{type}}</option>
+                                            </select>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- date  -->
+                        <!-- <br>
+                    <form>
+                        <label for="date1">Date initiale:</label>
+                        <input type="date" id="date1" ng-model="filtre_date1" name="date1">
+                        <label for="date2">Date finale</label>
+                        <input type="date" id="date2" ng-model="filtre_date2" name="date2">
+
+                    </form> -->
+
+                        <!-- <div class="table100" ng-if="filtre_segment" style="position: relative; float:left">
+                        <table>
+                            <thead>
+                                <tr class="table100-head">
+                                    <th style="text-align: center;" ng-click="select_all_Segment()" class="select_all">
+                                        <span data-toggle="tooltip" data-html="true"
+                                            title="Sélectionner tout">Segments</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody2" id="removed">
+                                <tr ng-repeat="element in segment " ng-click="setSelectSegment(element.index)"
+                                    ng-class="element.selected ? 'activee' : ''">
+                                    <td style="text-align: center;">
+                                        {{element.segment}}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div> -->
+
+
+
+                        <!--  -->
+
+
+                    </div>
+                    <a ng-if="modal1" href="#"><button class="btn btn-primary"
+                            style="background-color: #F7AF2A;font-weight: bold;float:right;margin-bottom: 3px;margin-right: 20px;"
+                            onclick="setCas()">Valider</button></a>
+
+                    <a ng-if="!modal1" href="#"><button class="btn btn-primary"
+                            style="background-color: #F7AF2A;font-weight: bold;float:right;margin-bottom: 3px;margin-right: 20px;"
+                            onclick="alert('Fonctionnalité actuellement gelée en attente de l\'étude des actions potentielle a date')">Valider</button></a>
+
+
+                </div>
+
+                <!-- Modal -->
+                <div class="lv-dots lv-mid lg" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+
+
+                </div>
+            </div>
+
+            <!-- * JS imports starts  -->
+            <div>
+            </div>
+
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+            <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+            <!-- * D3 js Component Data (should be befor D3 js components load) -->
+            <!-- <script src="assets/js/data/sunburst_frequence.js"></script>
+    <script src="assets/js/data/sunburst_polarity.js"></script> -->
+
+            <!-- * D3 js components Load (should be after to data imports) -->
+            <!-- <script src="assets/js/components/bubbles.js"></script>
+    <script src="assets/js/components/script_gauge_0_100.js"></script>
+    <script src="assets/js/components/script_gauge_100_100.js"></script>
+    <script src="assets/js/components/script_gauge.js"></script>
+    <script src="assets/js/components/benchmark.js"></script>
+    <script src='assets/js/components/diagram.js'></script>
+    <script src="assets/js/components/script_sunburst.js"></script>
+    <script src="assets/js/components/script_left.js"></script>
+    <script src="assets/js/components/script_right.js"></script>
+    <script src="assets/js/components/disk.js"></script> -->
+            <script src="assets/js/components/map.js"></script>
+
+        </div>
+        <!-- plot -->
+        <script src="dist2/Chart.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.5/chartjs-plugin-annotation.min.js"></script>
+</body>
+
+</html>
